@@ -1,0 +1,14 @@
+# Keil MDK build outputs
+Objects/
+Listings/
+
+# Keil GUI per-user state
+project.uvguix.ASUS
+*.uvguix.*
+
+# Codex / agent runtime traces
+.agents/
+.codex/
+
+# Local npm cache accidentally copied into projects (D:\nodejs\node_cache)
+*node_cache*/
