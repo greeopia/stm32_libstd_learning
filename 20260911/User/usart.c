@@ -120,7 +120,7 @@ static uint8_t ParseDateTimeValue(const char *value, Daytime_t *parsedTime) {
 	return 1;
 }
 
-static void ApplyTimeCalibration(const Daytime_t *calibratedTime) {
+static void ApplyTimeCalibration(const Daytime_t *calibratedTime) { // 真的看不懂是何意味啊
 	uint32_t primask;
 
 	/*
@@ -212,7 +212,7 @@ uint8_t USART1_TryCalibrateTime(void) {
 void USART1_IRQHandler(void) {
 	uint8_t data;
 
-	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
+	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) { // 接收
 		/* 读取 DR 会清除 RXNE，无需手动 ClearITPendingBit。 */
 		data = (uint8_t)USART_ReceiveData(USART1);
 
@@ -237,7 +237,7 @@ void USART1_IRQHandler(void) {
 			USART1_FrameReady = 1;
 		}
 		else if (USART1_RxOverflow == 0) {
-			if (USART1_RxIndex < (USART1_RX_BUFFER_SIZE - 1)) {
+			if (USART1_RxIndex < (USART1_RX_BUFFER_SIZE - 1)) { // 应该算是核心了
 				USART1_RxBuffer[USART1_RxIndex++] = (char)data;
 			}
 			else {
