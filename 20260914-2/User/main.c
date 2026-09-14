@@ -21,7 +21,7 @@ int main(){
 //		OLED_ShowString(1, 1, "Hello World!");
 //		OLED_ShowNum(1, strlen("Hello World!"), ++cnt, 2);
 		sprintf(msg2,  "%s*%2d", msg, ++cnt);
-		printf("%s\r\n", msg2);
+		printf("你好 %s\r\n", msg2);
 		
 	}
 }
