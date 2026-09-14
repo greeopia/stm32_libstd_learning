@@ -1,7 +1,7 @@
 #include "stm32f10x.h"                  // Device header
 #include "Key.h"
 #include "Delay.h"
-
+#include "stdbool.h"
 void KeyInit() {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 	
@@ -14,18 +14,14 @@ void KeyInit() {
 
 KeyState_t KeyState = OFF;
 
-void KeyScan() {
-	static uint8_t cnt = 1; 
-	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == SET && cnt == 1) {
+bool KeyScan() {
+//	static uint8_t cnt = 1; 
+	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == SET /*&& cnt == 1*/) {
 		Delay_ms(10);
 		while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == SET);
 		KeyState = !KeyState;
-		cnt = 0;
-		return;
+//		cnt = 0;
+		return 1;
 	}
-	else if (cnt == 0) {
-		KeyState = !KeyState;
-		cnt = 1;
-		return;
-	}
+	
 }

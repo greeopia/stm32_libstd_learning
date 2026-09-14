@@ -1,12 +1,14 @@
 #ifndef __KEY_H
 #define __KEY_H
 
+#include <stdbool.h>
+
 void KeyInit();
-void KeyScan();
+bool KeyScan();
 
 typedef enum {
 	OFF,
-	ON
+	ON = !OFF
 } KeyState_t;
 
 extern KeyState_t KeyState;
