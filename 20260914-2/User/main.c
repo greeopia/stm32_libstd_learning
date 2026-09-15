@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdbool.h>
 
+volatile bool ClearFlag = 0;
+
 int main(){
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	OLED_Init();
@@ -17,9 +19,11 @@ int main(){
 	
 	printf("wow\r\n");
 	while (1) {
-		Serial_RxMsg(USART2, RxMsg, sizeof(RxMsg));
-		OLED_ShowString(1, 1, (char *)RxMsg);
-		if(KeyScan()) OLED_Clear();
+		if (ClearFlag == 0) {
+			Serial_RxMsg(USART2, RxMsg, sizeof(RxMsg));
+			OLED_ShowString(1, 1, (char *)RxMsg);
+		}
+		else {OLED_Clear(); ClearFlag = 0;} // 得两个都改成中断式的才行。。。 
 	}
 //	if (KeyScan()) {
 ////		Serial_SendMsg(USART2, "Hello World!", strlen("Hello World!"));
