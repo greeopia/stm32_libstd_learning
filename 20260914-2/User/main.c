@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 volatile bool ClearFlag = 0;
+volatile uint8_t RxMsg2[50] = "";
 
 int main(){
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
@@ -16,6 +17,7 @@ int main(){
 //	uint8_t msg[] = "Hello World!", msg2[20];
 //	uint16_t cnt = 0;
 	uint8_t RxMsg[50] = "";
+	
 	
 	printf("wow\r\n");
 	while (1) {

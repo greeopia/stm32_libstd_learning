@@ -25,7 +25,7 @@ void USART2_Init() {
 	USART_InitStruct.USART_WordLength = USART_WordLength_8b;
 	USART_Init(USART2, &USART_InitStruct);
 	
-//	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 //	USART_ITConfig(USART2, USART_IT_TXE, ENABLE); // 相当于中断式发送/接收吗？
 	
 	NVIC_InitTypeDef NVIC_InitStruct;
@@ -95,7 +95,17 @@ void Serial_RxMsg(USART_TypeDef* USARTx, uint8_t RxMsg[], size_t len) { // ...�
     }
 //	RxMsg[len - 1] = '\0';
 }
-
+extern volatile uint8_t RxMsg2[50];
 void USART2_IRQHandler() {
-	
+	if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET) {
+//		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+		uint16_t Rx = USART_ReceiveData(USART2);
+		for (size_t i = 0; i + 1 < sizeof(RxMsg2); i++) {
+		RxMsg2[i] = (uint8_t)Serial_RxByte(USART2);
+		if (i > 0 && RxMsg2[i] == '\n') {
+			RxMsg2[i] = '\0';
+            return;
+        }
+    }
+	}
 }
