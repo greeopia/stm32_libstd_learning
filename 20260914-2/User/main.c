@@ -21,11 +21,27 @@ int main(){
 	
 	printf("wow\r\n");
 	while (1) {
-		if (ClearFlag == 0) {
-			Serial_RxMsg(USART2, RxMsg, sizeof(RxMsg));
-			OLED_ShowString(1, 1, (char *)RxMsg);
-		}
-		else {OLED_Clear(); ClearFlag = 0;} // 得两个都改成中断式的才行。。。 
+//		if (ClearFlag == 0) {
+//			Serial_RxMsg(USART2, RxMsg, sizeof(RxMsg));
+//			OLED_ShowString(1, 1, (char *)RxMsg);
+//		}
+//		else {OLED_Clear(); ClearFlag = 0;} // 得两个都改成中断式的才行。。。 
+//		uint8_t *RxMsg_bak; RxMsg_bak = (uint8_t *)malloc(sizeof(RxMsg));
+//		Serial_RxMsg(USART2, RxMsg, sizeof(RxMsg));
+//		
+//		if (RxMsg_bak == RxMsg) OLED_ShowString(1, 1, (char *)RxMsg);
+//		else {
+//			OLED_Clear();
+//			OLED_ShowString(1, 1, (char *)RxMsg);
+//		}
+//		free(RxMsg_bak);
+	Serial_RxMsg(USART2, RxMsg, sizeof(RxMsg));
+    OLED_Clear();
+    OLED_ShowString(1, 1, (char *)RxMsg);
+
+//        if (KeyScan()) {
+//            OLED_Clear();
+//        }
 	}
 //	if (KeyScan()) {
 ////		Serial_SendMsg(USART2, "Hello World!", strlen("Hello World!"));

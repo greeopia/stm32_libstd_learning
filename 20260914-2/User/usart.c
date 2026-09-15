@@ -25,7 +25,7 @@ void USART2_Init() {
 	USART_InitStruct.USART_WordLength = USART_WordLength_8b;
 	USART_Init(USART2, &USART_InitStruct);
 	
-	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+//	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 //	USART_ITConfig(USART2, USART_IT_TXE, ENABLE); // 相当于中断式发送/接收吗？
 	
 	NVIC_InitTypeDef NVIC_InitStruct;
