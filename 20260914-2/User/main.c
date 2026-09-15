@@ -3,7 +3,7 @@
 #include "usart.h"
 #include "Key.h"
 #include <string.h>
-#include <stdio.h>
+#include <stdbool.h>
 
 int main(){
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
@@ -11,17 +11,22 @@ int main(){
 	USART2_Init();
 	KeyInit();
 	
-	uint8_t msg[] = "Hello World!", msg2[20];
-	uint16_t cnt = 0;
+//	uint8_t msg[] = "Hello World!", msg2[20];
+//	uint16_t cnt = 0;
+	uint8_t RxMsg[50] = "";
 	
 	printf("wow\r\n");
-	while (1)
-	if (KeyScan()) {
-//		Serial_SendMsg(USART2, "Hello World!", strlen("Hello World!"));
-//		OLED_ShowString(1, 1, "Hello World!");
-//		OLED_ShowNum(1, strlen("Hello World!"), ++cnt, 2);
-		sprintf(msg2,  "%s*%2d", msg, ++cnt);
-		printf("你好 %s\r\n", msg2);
-		
+	while (1) {
+		Serial_RxMsg(USART2, RxMsg, sizeof(RxMsg));
+		OLED_ShowString(1, 1, (char *)RxMsg);
+		if(KeyScan()) OLED_Clear();
 	}
+//	if (KeyScan()) {
+////		Serial_SendMsg(USART2, "Hello World!", strlen("Hello World!"));
+////		OLED_ShowString(1, 1, "Hello World!");
+////		OLED_ShowNum(1, strlen("Hello World!"), ++cnt, 2);
+//		sprintf(msg2,  "%s*%2d", msg, ++cnt);
+//		printf("你好 %s\r\n", msg2);
+//		
+//	}
 }

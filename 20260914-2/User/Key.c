@@ -20,11 +20,8 @@ bool KeyScan() {
 	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == SET /*&& cnt == 1*/) {
 		Delay_ms(10);
 		while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == SET);
-//		KeyState = !KeyState;
-//		cnt = 0;
-//		printf("hi");
 		return 1;
 	}
-	return false;
+	return 0;
 }
 

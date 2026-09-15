@@ -11,7 +11,7 @@ void USART2_Init() {
 	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_2; // TX
 	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStruct);
-	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU; // uart空闲时高电平
 	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_3; // RX
 	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -58,6 +58,42 @@ void Serial_SendMsg(USART_TypeDef* USARTx, uint8_t data[], uint16_t len) {
 	for (uint16_t i = 0; i < len && data[i] != '\0'; i++) Serial_SendByte(USARTx,data[i]);
 	Serial_SendByte(USARTx,'\r');
 	Serial_SendByte(USARTx,'\n');
+}
+
+uint16_t Serial_RxByte(USART_TypeDef* USARTx) { // 阻塞式接收底层
+	while (USART_GetFlagStatus(USARTx, USART_FLAG_RXNE) != SET);
+	uint16_t Rx = USART_ReceiveData(USARTx);
+	return Rx;
+}
+
+//void Serial_RxMsg(USART_TypeDef* USARTx, uint8_t RxMsg[]) { // ...要检测到 \r\n 才行
+////	uint8_t i = 0
+//	for (uint8_t i = 0; ; i++) {
+//		if (RxMsg[i] == '\r') {
+//			if (RxMsg[i+1] == '\n') {
+//				return;
+//			}
+//		}
+//		RxMsg[i] = Serial_RxByte(USARTx);
+//	}
+//}
+
+void Serial_RxMsg(USART_TypeDef* USARTx, uint8_t RxMsg[], size_t len) { // ...要检测到 \n 才行，(win下只有enter的\n ?)
+	for (size_t i = 0; i + 1 < len; i++) {
+		RxMsg[i] = (uint8_t)Serial_RxByte(USARTx);
+//		if (RxMsg[i] == '\n') { // 定义帧尾？
+//			if (RxMsg[i-1] == '\r' && i-1 >= 0){
+//				RxMsg[i-1] = '\0';
+//				return;
+//			}
+//		}
+		if (i > 0 /*&& RxMsg[i - 1] == '\r' */&& RxMsg[i] == '\n') {
+//            RxMsg[i - 1] = '\0';
+			RxMsg[i] = '\0';
+            return;
+        }
+    }
+//	RxMsg[len - 1] = '\0';
 }
 
 void USART2_IRQHandler() {
