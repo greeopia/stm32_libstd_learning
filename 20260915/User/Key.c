@@ -32,7 +32,7 @@ void KeyInit() {
 KeyState_t KeyState = OFF;
 extern volatile bool ClearFlag;
 
-bool KeyScan() {
+bool KeyScan() { // 外部中断的话这一个应该没用了
 //	static uint8_t cnt = 1; 
 	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == SET /*&& cnt == 1*/) {
 		Delay_ms(10);

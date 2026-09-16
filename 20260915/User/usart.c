@@ -38,3 +38,34 @@ void USART2_Init() {
 	USART_Cmd(USART2, ENABLE);
 }
 
+extern volatile uint8_t RxMsg[50];
+static volatile uint8_t pData = 0;
+extern volatile uint8_t RxFlag;
+void USART2_IRQHandler() {
+//	if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET) { // 读数据会清除
+//		if (pData < sizeof(RxMsg) - 1) {
+//			RxMsg[pData] = (uint8_t)USART_ReceiveData(USART2);
+//			if (RxMsg[pData] == '\n') {
+//				RxMsg[pData] = '\0';
+//				RxFlag = 1;
+//				pData = 0;
+//				return;
+//			}
+//			pData++;
+//		}
+//		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+//	}
+	if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET) { // 以后或许可以改造一下RxMsg[]，手动维护一个环形队列 
+//		RxMsg[pData] = (uint8_t)USART_ReceiveData(USART2);
+		uint8_t temp = (uint8_t)USART_ReceiveData(USART2);
+		if (temp == '\n') {
+			temp = '\0';
+			RxMsg[pData] = '\0'; // 要添加这个标志才不会乱显...
+			RxFlag = 1;
+			pData = 0;
+			return;
+		}
+		if (pData < sizeof(RxMsg) - 1) RxMsg[pData++] = temp;
+		else pData = 0;
+	}
+}
