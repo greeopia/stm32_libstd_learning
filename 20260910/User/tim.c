@@ -15,6 +15,7 @@ void TIM1Init() {
 	TimeBaseInitstructure.TIM_RepetitionCounter = 0; // 1s计数
 	TIM_TimeBaseInit(TIM1, &TimeBaseInitstructure);
 	
+	// TIM_ClearFlag(TIM1, TIM_FLAG_UPDATE);
 	TIM_ITConfig(TIM1, TIM_IT_Update, ENABLE);
 	
 	NVIC_InitTypeDef NVIC_InitStruct;

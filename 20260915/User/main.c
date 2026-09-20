@@ -14,7 +14,8 @@ int main(){ // 大概就是中断式串口收发数据包
 	KeyInit();
 	USART2_Init();
 	
-//	OLED_ShowString(1, 1, "OLED OK");
+	OLED_ShowString(1, 1, "OLED OK");
+	
 	while (1) {
 		if (ClearFlag == 1) {
 			ClearFlag = 0;
