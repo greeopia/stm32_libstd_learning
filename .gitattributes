@@ -1,0 +1,3 @@
+# Keep text files with CRLF line endings in the working tree.
+# Git stores normalized LF; binary files are left unchanged.
+* text=auto eol=crlf
