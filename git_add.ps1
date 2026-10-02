@@ -17,7 +17,7 @@ if (-not $targets) {
 $targets | Sort-Object Name | ForEach-Object { 
     # $hasChanges = git status --porcelain -- $_.FullName | Measure-Object | ForEach-Object { $_.Count -gt 0 }
     $hasChanges = [bool](git status --porcelain -- $_.FullName)
-    if ($hasChanges) { git add --renormalize -- $_.FullName }
+    if ($hasChanges) { git add -- $_.FullName }
 }
 
 # $targets | Sort-Object Name | ForEach-Object {
