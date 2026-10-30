@@ -1,0 +1,6 @@
+[submodule "stm32-smartcar/kalman_filter"]
+	path = stm32-smartcar/kalman_filter
+	url = https://github.com/xiahouzuoxin/kalman_filter
+[submodule "stm32-smartcar/cJSON"]
+	path = stm32-smartcar/cJSON
+	url = git@github.com:DaveGamble/cJSON.git
