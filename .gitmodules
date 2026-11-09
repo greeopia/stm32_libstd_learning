@@ -4,3 +4,7 @@
 [submodule "stm32-smartcar/cJSON"]
 	path = stm32-smartcar/cJSON
 	url = git@github.com:DaveGamble/cJSON.git
+[submodule "Learning_FreeRTOS"]
+	path = Learning_FreeRTOS
+	url = https://github.com/greeopia/stm32-FreeRTOS.git
+	branch = main
